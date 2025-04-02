@@ -50,13 +50,16 @@
 								<form method="post" action="#">
 									<div class="fields">
 										<div class="field half">
-											<input type="text" name="name" id="name" placeholder="Name" />
+											<input type="text" name="name" id="firstname" placeholder="First Name" required />
 										</div>
 										<div class="field half">
-											<input type="email" name="email" id="email" placeholder="Email" />
+											<input type="text" name="name" id="lastname" placeholder="Last Name" required />
+										</div>
+										<div class="field half">
+											<input type="email" name="email" id="email" placeholder="Email" required />
 										</div>
 										<div class="field">
-											<textarea name="message" id="message" placeholder="Message"></textarea>
+											<textarea name="message" id="message" placeholder="Message" required></textarea>
 										</div>
 									</div>
 									<ul class="actions">
@@ -90,7 +93,59 @@
 
 			</div>
 
+			<script>
+
+				document.addEventListener("DOMContentLoaded", function () {
+						const form = document.querySelector("form");
+						const fields = form.querySelectorAll("input, textarea");
+						const formContainer = form.parentElement;
+
+						form.addEventListener("submit", function (event) {
+							event.preventDefault();
+
+							// Validate form fields
+							for (let field of fields) {
+								if (!field.value.trim()) {
+									alert("Please fill out all fields.");
+									return;
+								}
+							}
+
+							// Confirm submission
+							if (!confirm("Do you want to submit the form?")) {
+								return;
+							}
+
+							// Display submitted data
+							let submittedData = `<h3>Submitted Information</h3>
+                             <p><strong>First Name:</strong> ${document.getElementById("firstname").value}</p>
+                             <p><strong>Last Name:</strong> ${document.getElementById("lastname").value}</p>
+                             <p><strong>Email:</strong> ${document.getElementById("email").value}</p>
+                             <p><strong>Message:</strong> ${document.getElementById("message").value}</p>
+                             <button id='backButton'>Back</button>`;
+
+							formContainer.innerHTML = submittedData;
+
+							// Back button functionality
+							document.getElementById("backButton").addEventListener("click", function () {
+								form.reset(); // Clear form fields
+								formContainer.innerHTML = ""; // Restore original form
+								formContainer.appendChild(form);
+							});
+						});
+					});
+
+
+
+
+
+			</script>
+
+
+
+
 		<!-- Scripts -->
+		    <script src="/assets/js/form_validation.js"></script>
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>
